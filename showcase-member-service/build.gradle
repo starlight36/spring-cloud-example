@@ -1,0 +1,83 @@
+group 'com.starlight36.showcase.service'
+version '1.0.0'
+description 'Member Service'
+
+buildscript {
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE'
+        classpath 'io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+
+configurations {
+    javaagent
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR4'
+    }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.6'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    optional 'org.springframework.boot:spring-boot-configuration-processor'
+
+    compile 'org.springframework.cloud:spring-cloud-starter-consul-all'
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
+    compile 'org.springframework.cloud:spring-cloud-starter-hystrix'
+    compile 'org.springframework.cloud:spring-cloud-starter-ribbon'
+    compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    compile 'org.springframework:spring-aspects'
+    javaagent 'org.springframework:spring-instrument'
+    javaagent 'org.aspectj:aspectjweaver:+'
+
+    compile 'io.springfox:springfox-swagger2:2.5.0'
+    compile 'io.springfox:springfox-swagger-ui:2.5.0'
+
+    compile 'joda-time:joda-time:2.7'
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'com.google.guava:guava:19.0'
+    compile 'commons-codec:commons-codec:1.10'
+
+    compile 'com.h2database:h2:1.4.187'
+    compile 'mysql:mysql-connector-java:5.1.36'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7+'
+    testCompile 'net.sf.json-lib:json-lib:2.4:jdk15'
+}
+
+task copyAgent(type: Copy) {
+    from {
+        configurations.javaagent
+    }
+    into "$buildDir/libs"
+    rename 'aspectjweaver-(.+?).jar', 'aspectjweaver.jar'
+    rename 'spring-instrument-(.+?).jar', 'spring-instrument.jar'
+}
+
+
+springBoot {
+    mainClass = 'com.starlight36.service.showcase.member.Application'
+}
+
+compileJava.dependsOn processResources
+compileJava.dependsOn([copyAgent])

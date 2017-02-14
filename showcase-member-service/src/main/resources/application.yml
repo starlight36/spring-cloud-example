@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 10000
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 50
+      maxQueueSize: 200
+      queueSizeRejectionThreshold: 200
+
+ribbon:
+  ConnectTimeout: 2000
+  ReadTimeout: 10000
+
+

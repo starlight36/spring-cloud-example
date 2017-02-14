@@ -1,0 +1,14 @@
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            jcenter()
+            maven { url 'http://repo.spring.io/plugins-release' }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+}

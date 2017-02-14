@@ -1,0 +1,6 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-Xreweavable">
+        <include within="com.starlight36.showcase.service..*"/>
+    </weaver>
+</aspectj>

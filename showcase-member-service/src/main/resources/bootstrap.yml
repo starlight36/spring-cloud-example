@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: member-service
+  cloud:
+    consul:
+      host: 127.0.0.1
+      config:
+        format: yaml
